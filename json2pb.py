@@ -18,6 +18,7 @@ Import this file to add functions
 Also they may be used as json_encode and json_decode
 """
 
+import base64
 from google.protobuf.message import Message
 
 
@@ -70,7 +71,7 @@ def pb2jd(o):
         if d.type == d.TYPE_MESSAGE:
             return pb2jd(obj)
         elif d.type == d.TYPE_BYTES:
-            return obj.encode('base64')
+            return base64.b64encode(obj)
         else:
             return obj
 
@@ -97,7 +98,7 @@ def jd2pb(descriptor, jdict):
         if d.type == d.TYPE_MESSAGE:
             return jd2pb(d.message_type, obj)
         elif d.type == d.TYPE_BYTES:
-            return obj.decode('base64')
+            return base64.b64decode(obj)
         else:
             return obj
 
